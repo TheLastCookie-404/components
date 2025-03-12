@@ -56,6 +56,9 @@ defineProps({
     type: String,
     required: false,
     default: "0",
+    validator: (value) => {
+      return /^\d+(\.\d+)?(px|rem|em|%)$/.test(value);
+    },
   },
 });
 
@@ -76,16 +79,6 @@ function handleMouse(event) {
   background: v-bind(lightColor);
   filter: blur(v-bind(lightBlur));
 }
-
-/* .content-container {
-  background: v-bind(containerColor);
-  border-radius: v-bind(borderRadius);
-} */
-
-/* .content-container {
-  background: v-bind(containerColor);
-  border-radius: calc(inherit(border-radius) - v-bind(borderWidth));
-} */
 
 .content-container {
   background: v-bind(containerColor);
