@@ -1,13 +1,12 @@
 <template>
   <div>
     <div
-      class="w-fit relative box-content overflow-hidden base-block after:absolute after:size-full after:blur"
+      class="w-fit relative box-content overflow-hidden base-block"
+      :style="`padding: ${borderWidth}`"
       @mousemove="handleMouse"
       @mouseleave="isMouseLeave = true">
-      <div class="relative w-fit z-10" :style="`padding: ${borderWidth}`">
-        <div class="h-full content-container">
-          <slot />
-        </div>
+      <div class="relative w-fit z-10 content-container">
+        <slot />
       </div>
       <div class="w-full aspect-square mouse-pos z-0 pointer-events-none">
         <div class="h-full -translate-x-1/2 -translate-y-1/2">
@@ -67,7 +66,7 @@ function handleMouse(event) {
 }
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .base-block {
   background: v-bind(baseColor);
   border-radius: v-bind(borderRadius);
@@ -77,6 +76,16 @@ function handleMouse(event) {
   background: v-bind(lightColor);
   filter: blur(v-bind(lightBlur));
 }
+
+/* .content-container {
+  background: v-bind(containerColor);
+  border-radius: v-bind(borderRadius);
+} */
+
+/* .content-container {
+  background: v-bind(containerColor);
+  border-radius: calc(inherit(border-radius) - v-bind(borderWidth));
+} */
 
 .content-container {
   background: v-bind(containerColor);
