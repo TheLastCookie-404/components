@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <div
-      class="w-fit relative box-content overflow-hidden base-block"
-      :style="`padding: ${borderWidth}`"
-      @mousemove="handleMouse"
-      @mouseleave="isMouseLeave = true">
-      <div class="relative w-fit z-10 content-container">
-        <slot />
-      </div>
-      <div class="w-full aspect-square mouse-pos z-0 pointer-events-none">
-        <div class="h-full -translate-x-1/2 -translate-y-1/2">
-          <div
-            class="h-full transition duration-300"
-            :class="isMouseLeave ? 'opacity-0' : 'opacity-100'">
-            <div class="h-full rounded-full blur-2xl light-sircle" />
-          </div>
+  <div
+    class="relative box-content overflow-hidden base-block"
+    :style="`padding: ${borderWidth}`"
+    @mousemove="handleMouse"
+    @mouseleave="isMouseLeave = true">
+    <div class="size-full relative z-10 content-container">
+      <slot />
+    </div>
+    <div class="w-full aspect-square mouse-pos z-0 pointer-events-none">
+      <div class="h-full -translate-x-1/2 -translate-y-1/2">
+        <div
+          class="h-full transition duration-300"
+          :class="isMouseLeave ? 'opacity-0' : 'opacity-100'">
+          <div class="h-full rounded-full blur-2xl light-sircle" />
         </div>
       </div>
     </div>
