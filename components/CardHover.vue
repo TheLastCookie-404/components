@@ -7,7 +7,7 @@
     <div class="size-full relative z-10 content-container">
       <slot />
     </div>
-    <div class="w-full aspect-square mouse-pos z-0 pointer-events-none">
+    <div class="w-full aspect-square mouse-pos pointer-events-none">
       <div class="h-full -translate-x-1/2 -translate-y-1/2">
         <div
           class="h-full transition duration-300"
@@ -69,8 +69,20 @@
 
 <style lang="css" scoped>
   .base-block {
-    background: v-bind(baseColor);
     border-radius: v-bind(borderRadius);
+  }
+
+  .base-block::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: content-box;
+    background: v-bind(baseColor);
+    content: "asdf";
   }
 
   .light-sircle {
