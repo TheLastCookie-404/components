@@ -1,19 +1,17 @@
 <template>
   <div
-    class="relative overflow-hidden base-block"
+    class="relative overflow-hidden base-block after:transition after:duration-300"
+    :class="isMouseLeave ? 'after:opacity-0' : 'after:opacity-100'"
     :style="`padding: ${borderWidth}`"
     @mousemove="handleMouse"
     @mouseleave="isMouseLeave = true">
-    <div class="size-full relative z-10 content-container">
-      <slot />
-    </div>
-    <div class="w-full aspect-square mouse-pos pointer-events-none">
-      <div class="h-full -translate-x-1/2 -translate-y-1/2">
-        <div
-          class="h-full transition duration-300"
-          :class="isMouseLeave ? 'opacity-0' : 'opacity-100'">
-          <div class="h-full rounded-full blur-2xl light-sircle" />
-        </div>
+    <div class="size-full content-container">
+      <!-- 
+        Flex fixes issue with margin-top when 
+        it applied to child via <slot /> 
+      -->
+      <div class="flex">
+        <slot />
       </div>
     </div>
   </div>
@@ -25,31 +23,57 @@
   const isMouseLeave = ref(true);
 
   defineProps({
+    /**
+     * @lightColor Color of lighting effect (sircle that forms hover outline)
+     */
     lightColor: {
       type: String,
       required: false,
       default: "#fff",
     },
+    /**
+     * @lightBlur Blur factor of lighting effect
+     */
     lightBlur: {
       type: String,
       required: false,
       default: "40px",
     },
+    /**
+     * @lightSize Size of lighting effect
+     */
+    lightSize: {
+      type: String,
+      required: false,
+      default: "100%",
+    },
+    /**
+     * @baseColor Color of base (block that forms default outline)
+     */
     baseColor: {
       type: String,
       required: false,
       default: "#15191e",
     },
+    /**
+     * @containerColor Color of container for slot
+     */
     containerColor: {
       type: String,
       required: false,
-      default: "#191e24f8",
+      default: "#191e24f3",
     },
+    /**
+     * @containerColor Border width (difference between base and container sizes)
+     */
     borderWidth: {
       type: String,
       required: false,
       default: "2px",
     },
+    /**
+     * @containerColor Radius of corners
+     */
     borderRadius: {
       type: String,
       required: false,
@@ -76,28 +100,30 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 0;
+    z-index: -2;
     width: 100%;
     height: 100%;
-    padding: 10px;
     box-sizing: content-box;
     background: v-bind(baseColor);
-    content: "asdf";
+    content: ""; /* ::before can`t be visible without content */
   }
 
-  .light-sircle {
+  .base-block::after {
+    position: absolute;
+    top: v-bind("`${mouseY}px`");
+    left: v-bind("`${mouseX}px`");
+    z-index: -1;
+    width: 100%;
+    aspect-ratio: 1/1;
+    transform: translate(calc((100% / 2) * -1), calc((100% / 2) * -1));
+    border-radius: calc(infinity * 1px);
     background: v-bind(lightColor);
     filter: blur(v-bind(lightBlur));
+    content: ""; /* ::after can`t be visible without content */
   }
 
   .content-container {
     background: v-bind(containerColor);
     border-radius: calc(v-bind(borderRadius) - v-bind(borderWidth));
-  }
-
-  .mouse-pos {
-    position: absolute;
-    top: v-bind("`${mouseY}px`");
-    left: v-bind("`${mouseX}px`");
   }
 </style>
